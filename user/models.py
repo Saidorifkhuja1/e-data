@@ -12,13 +12,12 @@ PHONE_REGEX = RegexValidator(
 )
 
 class UserManager(BaseUserManager):
-    def create_user(self, phone_number, last_name, name, email, password=None, **extra_fields):
+    def create_user(self, phone_number,name, email, password=None, **extra_fields):
         if not phone_number:
             raise ValueError('User must have a phone number')
         if not name:
             raise ValueError('User must have a name')
-        if not last_name:
-            raise ValueError('User must have a last name')
+
         if not email:
             raise ValueError('User must have an email')
 
@@ -26,7 +25,7 @@ class UserManager(BaseUserManager):
         user = self.model(
             phone_number=phone_number,
             name=name,
-            last_name=last_name,
+
             email=email,
             **extra_fields
         )
@@ -34,11 +33,11 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone_number, name, last_name, email, password=None, **extra_fields):
+    def create_superuser(self, phone_number, name, email, password=None, **extra_fields):
         extra_fields.setdefault('is_admin', True)
         extra_fields.setdefault('is_superuser', True)
 
-        return self.create_user(phone_number, last_name, name, email, password, **extra_fields)
+        return self.create_user(phone_number, name, email, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
     uid = models.UUIDField(default=uuid.uuid4, primary_key=True)
@@ -50,8 +49,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = ['email', 'name']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['phone_number', 'name']
 
     def __str__(self):
         return f'{self.name} {self.last_name}'
