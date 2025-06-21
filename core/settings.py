@@ -37,7 +37,7 @@ SECRET_KEY = "django-insecure-zpt&ylc%s_v(!_cfsd^bt!s!0$4u$1t^-w(()4g7v9dqnjv3+q
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-# CSRF_TRUSTED_ORIGINS = ['https://api.ziyolib.uz']
+# CSRF_TRUSTED_ORIGINS = ['*']
 # CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS")
 CORS_ALLOW_ALL_ORIGINS = True
 

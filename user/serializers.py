@@ -41,3 +41,12 @@ class PasswordResetSerializer(serializers.Serializer):
         if data['old_password'] == data['new_password']:
             raise serializers.ValidationError("The new password cannot be the same as the old password.")
         return data
+
+
+
+
+class UserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['uid', 'name', 'phone_number', 'email', 'is_active', 'is_admin']
+
