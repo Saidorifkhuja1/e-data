@@ -38,10 +38,9 @@ class UserListAPIView(generics.ListAPIView):
 class UpdateProfileView(generics.UpdateAPIView):
     serializer_class = UserUpdateSerializer
     permission_classes = [IsAuthenticated]
+    lookup_field = 'uid'
+    queryset = User.objects.all()
 
-    def get_object(self):
-        decoded = unhash_token(self.request.headers)
-        return get_object_or_404(User, uid=decoded.get('user_id'))
 
 
 class RetrieveProfileView(generics.RetrieveAPIView):
