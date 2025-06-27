@@ -72,16 +72,17 @@ class PasswordResetView(APIView):
         return Response({"message": "Password changed successfully"}, status=status.HTTP_200_OK)
 
 
-class DeleteProfileAPIView(generics.DestroyAPIView):
+class DeleteUserByUIDAPIView(generics.DestroyAPIView):
+    queryset = User.objects.all()
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
+    lookup_field = 'uid'  # Get the user UID from the URL
 
-    def get_object(self):
-        decoded = unhash_token(self.request.headers)
-        return get_object_or_404(User, uid=decoded.get('user_id'))
-
-
-
+    def perform_destroy(self, instance):
+        requesting_user = self.request.user
+        if instance != requesting_user and not requesting_user.is_admin:
+            raise PermissionDenied("You do not have permission to delete other users.")
+        instance.delete()
 
 
 
