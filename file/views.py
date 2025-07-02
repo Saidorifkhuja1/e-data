@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import File
@@ -60,3 +60,17 @@ class AllFileListAPIView(generics.ListAPIView):
     queryset = File.objects.all().order_by('-uploaded_at')
     serializer_class = FileSerializer
     permission_classes = [IsAuthenticated]
+
+
+
+
+class SearchFileAPIView(generics.ListAPIView):
+    serializer_class = FileSerializer
+    permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
+
+    def get_queryset(self):
+        return File.objects.all().order_by('-uploaded_at')
+
+

@@ -11,4 +11,7 @@ urlpatterns = [
     path('files/user/<uuid:uid>/', FileListByUserAPIView.as_view()),
     path('files/my/', MyFileListAPIView.as_view()),
     path('files/all/', AllFileListAPIView.as_view()),
+    path('files/search/', SearchFileAPIView.as_view()),
 ]
+
+
